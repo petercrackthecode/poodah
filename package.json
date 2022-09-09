@@ -1,0 +1,22 @@
+{
+  "name": "poodah",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Peter Nguyen <peternguyenforwork@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start:server": "yarn workspace server start",
+    "start:client": "yarn workspace client start",
+    "dev:server": "yarn workspace server dev",
+    "dev:client": "yarn workspace client dev",
+    "start": "concurrently \"yarn start:server\" \"yarn start:client\"",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\""
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
+}
