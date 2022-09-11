@@ -3,7 +3,7 @@ import Head from "next/head";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div>
+    <div className="w-screen h-screen border border-blue-500">
       <Head>
         <title>Poodah</title>
         <link rel="icon" href="/poodah.ico" />
