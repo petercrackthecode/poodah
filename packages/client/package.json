@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@harelpls/use-pusher": "^7.2.1",
     "axios": "^0.27.2",
     "dotenv": "^16.0.2",
     "next": "12.3.0",
