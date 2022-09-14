@@ -5,8 +5,8 @@ import { AppContextProvider } from '../context'
 import { PusherProvider } from '@harelpls/use-pusher'
 const pusherConfig = {
   // required config props
-  clientKey: '32b2275ca54b94cc69c5',
-  cluster: 'us3',
+  clientKey: process.env.NEXT_PUBLIC_PUSHER_KEY,
+  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
