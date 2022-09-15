@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import Pusher, { Options as PusherOptions } from 'pusher'
 
-dotenv.config()
+dotenv.config({ path: '.env.local' })
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000'
 
@@ -19,7 +19,7 @@ const PUSHER_CONFIG: PusherOptions = {
   key: process.env.PUSHER_KEY || '',
   secret: process.env.PUSHER_SECRET || '',
   cluster: process.env.PUSHER_CLUSTER || '',
-  encrypted: true,
+  // useTLS: true,
 }
 const pusher = new Pusher(PUSHER_CONFIG)
 
@@ -27,12 +27,18 @@ app.get('/', (_: Request, res: Response) => {
   res.send('Express + TypeScript Server')
 })
 
-app.post('/message/create', (req: Request, res: Response) => {
+app.post('/message/create', async (req: Request, res: Response) => {
   const payload = req.body
-  pusher.trigger('chat', 'message', payload)
-  res.status(200).send(payload)
+  console.log('payload = ', payload)
+  try {
+    pusher.trigger('chat', 'message', payload).catch((_error) => console.log('_error = ', _error))
+    res.status(200).send(payload)
+  } catch (error) {
+    console.log('error = ', error)
+    res.status(500).send(error)
+  }
 })
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${port}`)
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
 })

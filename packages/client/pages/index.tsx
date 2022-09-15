@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Editor from '../components/Editor'
 import MessageViewer from '../components/MessageViewer'
-import { useChannel } from '@harelpls/use-pusher'
 
 const Home: NextPage = () => {
   return (

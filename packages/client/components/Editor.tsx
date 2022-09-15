@@ -4,22 +4,21 @@ import { useState, useContext, ChangeEvent, KeyboardEvent } from 'react'
 import { AppContext, Messages } from '../context'
 // Use the timestamp uuid to avoid collisions
 import { v1 as uuidv1 } from 'uuid'
+import axios from 'axios'
 
 export default function Editor() {
   const { messages, setMessages } = useContext(AppContext)
   const [typedMessage, setTypedMessage] = useState<string>('')
 
-  //
   const sendNewMessage = () => {
     let id = uuidv1()
     while (messages && id in messages) {
       id = uuidv1()
     }
-    setMessages &&
-      setMessages((prevMessages: Messages | null) => ({
-        ...prevMessages,
-        [id.toString()]: { content: typedMessage },
-      }))
+    // Attach the message to the message queue for the current user immediately
+    setMessages((prevMessages: Messages) => ({ ...prevMessages, [id]: { content: typedMessage } }))
+    const payload = { id, content: typedMessage }
+    axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/message/create`, payload)
     setTypedMessage('')
   }
 
