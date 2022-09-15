@@ -15,8 +15,13 @@ export default function MessageViewer() {
   })
 
   return (
-    <div className="message-viewer rounded-full">
-      {messages && Object.keys(messages).map((id) => <p key={`message_${id}`}>{messages[id].content}</p>)}
+    <div className="message-viewer rounded-full" style={{ marginBottom: '200px' }}>
+      {messages &&
+        Object.keys(messages).map((id) => (
+          <p key={`message_${id}`} className="break-words">
+            {messages[id].content}
+          </p>
+        ))}
     </div>
   )
 }
