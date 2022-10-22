@@ -27,16 +27,31 @@ app.get('/', (_: Request, res: Response) => {
   res.send('Express + TypeScript Server')
 })
 
+app.post('/pusher/user-auth', (req, res) => {
+  const socketId = req.body.socket_id
+
+  // Replace this with code to retrieve the actual user id and info
+  const user = {
+    id: '12345',
+    user_info: {
+      name: 'John Smith',
+    },
+  }
+  const authResponse = pusher.authenticateUser(socketId, user)
+  res.send(authResponse)
+})
+
 app.post('/message/create', async (req: Request, res: Response) => {
   const payload = req.body
-  console.log('payload = ', payload)
-  try {
-    pusher.trigger('chat', 'message', payload).catch((_error) => console.log('_error = ', _error))
-    res.status(200).send(payload)
-  } catch (error) {
-    console.log('error = ', error)
-    res.status(500).send(error)
-  }
+  pusher
+    .trigger('chat', 'message', payload)
+    .then(() => {
+      return res.status(200).json(payload)
+    })
+    .catch((_error) => {
+      console.log('_error = ', _error)
+      return res.status(500).json({ _error })
+    })
 })
 
 app.listen(port, () => {
